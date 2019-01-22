@@ -11,11 +11,10 @@ services:
       app_net:
         ipv4_address: 192.168.17.250
 
-  privacyidea_web:
+  privacy-idea:
     env_file:
-      - privacyidea.env
-    build: .
-    image: privacyidea:latest
+      - privacyidea/privacyidea.env
+    image: privacy-idea:latest
     ports:
       - "8000:8000"
     networks:

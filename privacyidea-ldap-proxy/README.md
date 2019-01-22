@@ -16,11 +16,11 @@ These steps will install privacyidea-ldap-proxy using Docker. You can use privac
 
         mkdir -p /opt/privacyIdeaLDAPProxy
         cd /opt/privacyIdeaLDAPProxy
-        wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/config.ini
+        wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/config.ini
 
 4.  Get the installer
 
-        git clone  https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa
+        git clone https://github.com/Zimbra-Community/zimbra-foss-2fa
         cd zimbra-foss-2fa
 
 5. Build your docker image
@@ -45,3 +45,17 @@ These steps will install privacyidea-ldap-proxy using Docker. You can use privac
        docker-compose logs -f privacy-idea-ldap-proxy
 
        
+       
+# Installing PrivacyIDEA
+
+These steps will install privacyidea in a Docker container that can be run on a Zimbra mailbox node, combined with PrivacyIDEA LDAP Proxy from above this adds 2FA to Zimbra.
+
+10. Build the docker image
+
+        cd ..
+        cd privacyidea
+        docker image build -t privacy-idea .  
+
+11. Test run the privacy-idea container
+
+        docker container run privacy-idea
