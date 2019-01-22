@@ -1,0 +1,15 @@
+version: '3'
+services:
+  privacyidea_web:
+    env_file:
+      - privacyidea.env
+    build: .
+    image: privacyidea:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    image: mysql:5
