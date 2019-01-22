@@ -9,7 +9,7 @@ RUN yum -y update \
 RUN pip install --upgrade pip
 
 VOLUME /opt/privacyIdeaLDAPProxy/ /opt/privacyIdeaLDAPProxy/
-ADD https://raw.githubusercontent.com/Zimbra-Community/privacyidea-ldap-proxy/master/requirements.txt /app/
+ADD https://raw.githubusercontent.com/barrydegraaff/zimbra-foss-2fa/master/privacyidea-ldap-proxy/requirements.txt /app/
 WORKDIR /app
 RUN pip install -r /app/requirements.txt
 
