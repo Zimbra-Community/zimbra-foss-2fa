@@ -1,0 +1,22 @@
+version: '3'
+services:
+  privacy-idea-ldap-proxy:
+    image: privacy-idea-ldap-proxy:latest
+    volumes:
+      - "/opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy"
+    restart: always
+    ports:
+      - "1389:1389"
+    networks:
+      app_net:
+        ipv4_address: 192.168.17.250
+
+networks:
+  app_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.17.0/24
