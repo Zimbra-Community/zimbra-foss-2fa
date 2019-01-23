@@ -1,105 +1,53 @@
-FROM alpine:3.7
+# docker image build -t privacy-idea .
+# docker container logs --follow privacyidea
+# docker exec -it privacyidea bash
 
-ARG PRIVACYIDEA_GIT_VERSION=v2.22
-ARG PRIVACYIDEA_GIT_URL=git+https://github.com/privacyidea/privacyidea.git
-ARG SSL_CERT_NAME=''
-ARG PRIVACYIDEA_HOME=/PRIVACYIDEA
-ARG UWSGI_VERSION=2.0.17.1
-ARG PYTHON_VERSION=2.7.14
-ARG PI_SSL_CRT_URL=''
-ENV PRIVACYIDEA_HOME=${PRIVACYIDEA_HOME}
-ENV PI_SSL_CERT_NAME=${SSL_CERT_NAME}
-ENV PRIVACYIDEA_CONFIG_DIR=/etc/privacyidea
 
-# # Install build deps, then run `pip install`, then remove unneeded build deps all in a single step. Correct the path to your production requirements file, if needed.
-RUN apk add --no-cache \
-  curl \
-  pcre-dev \
-	libxml2-dev \
-	libxslt-dev
+FROM zetalliance/mysql-zeta-pi:latest
 
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
-            git \
-            gcc \
-            g++ \
-            make \
-            libc-dev \
-            musl-dev \
-            linux-headers \
-            mariadb-client-libs \
-            mariadb-dev \
-            postgresql-dev \
-            freetype-dev \
-            libpng \
-						jpeg-dev \
-            libffi-dev \
-						py2-pip \
-						python2-dev \
-    && mkdir $PRIVACYIDEA_HOME \
-		&& mkdir $PRIVACYIDEA_CONFIG_DIR \
-		&& mkdir $PRIVACYIDEA_HOME/python \
-		&& curl https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz \
-		&& tar -xvzf /tmp/Python-${PYTHON_VERSION}.tgz \
-		&& cd Python-${PYTHON_VERSION} \
-		&& ./configure \
-				--enable-shared \
-				--prefix=$PRIVACYIDEA_HOME/python \
-				--with-ensurepip=install \
-				--enable-unicode=ucs4 \
-		&& make \
-		&& make install \
-		&& cd .. \
-		&& rm -rf Python-${PYTHON_VERSION} \
-		&& $PRIVACYIDEA_HOME/python/bin/pip install uwsgi==${UWSGI_VERSION} \
-		# there were warning in logs that this module is not installed
-    && $PRIVACYIDEA_HOME/python/bin/pip install virtualenv \
-    && $PRIVACYIDEA_HOME/python/bin/virtualenv -p $PRIVACYIDEA_HOME/python/bin/python --no-site-packages $PRIVACYIDEA_HOME/venv \
-    && source $PRIVACYIDEA_HOME/venv/bin/activate \
-    && pip install ${PRIVACYIDEA_GIT_URL}@${PRIVACYIDEA_GIT_VERSION} \
-    && runDeps="$( \
-              scanelf --needed --nobanner --recursive /usr/local \
-                      | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-                      | sort -u \
-                      | xargs -r apk info --installed \
-                      | sort -u \
-      )" \
-    && apk add --no-cache --virtual .python-rundeps $runDeps \
-    && apk del .build-deps
+RUN apt-get update
+RUN apt-get install -y gnupg2
 
-RUN if [ $PI_SSL_CERT_NAME ]; \
-    then \
-	curl $PI_SSL_CRT_URL/${PI_SSL_CERT_NAME}.crt -o /usr/local/share/ca-certificates/${PI_SSL_CERT_NAME}.crt \
-        && update-ca-certificates \
-        && apk del curl; \
-    fi;
+RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" > /etc/apt/sources.list.d/nginx.list && \
+    echo "deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list.d/nginx.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ABF5BD827BD9BF62
 
-# Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:privacyidea/privacyidea
 
-ADD pi.cfg  $PRIVACYIDEA_CONFIG_DIR
-ADD docker-entrypoint.sh $PRIVACYIDEA_CONFIG_DIR
+RUN apt-get update \
+    && apt-get install -y -q --no-install-recommends --no-install-suggests \
+        net-tools \
+        tzdata \
+        ca-certificates \
+        supervisor \
+        nginx \
+        uwsgi \
+        uwsgi-plugin-python \
+        python-privacyidea \
+        python-mysqldb \
+        sqlite3 \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
 
-# uWSGI will listen on this port
-EXPOSE 8000
+RUN mkdir -p /etc/nginx/sites-enabled/
+COPY conf/pi.cfg /etc/privacyidea/pi.cfg
+COPY conf/supervisord.conf /etc/supervisord.conf
+COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx-site.conf /etc/nginx/sites-available/privacyidea
+COPY privacyideaapp.py /etc/privacyidea/privacyideaapp.py
+COPY privacyidea.xml /privacyidea.xml
 
-# Add any custom, static environment variables needed by Django or your settings file here:
-ENV PRIVACYIDEA_CONFIGFILE=$PRIVACYIDEA_CONFIG_DIR/pi.cfg
-ENV PI_AUDIT_KEY_PRIVATE=$PRIVACYIDEA_CONFIG_DIR/private.pem
-ENV PI_AUDIT_KEY_PUBLIC=$PRIVACYIDEA_CONFIG_DIR/public.pem
-ENV PI_LOGFILE=/var/log/privacyidea.log
-ENV PI_ENCFILE=$PRIVACYIDEA_CONFIG_DIR/enckey
+COPY setup.sh /sbin/setup.sh
+COPY entrypoint.sh /sbin/entrypoint.sh
 
-RUN chmod +x $PRIVACYIDEA_CONFIG_DIR/docker-entrypoint.sh \
-    && addgroup -g 2000 privacyidea \
-    && adduser -u 1000 -D -G privacyidea privacyidea \
-    && chown -R 1000:2000 $PRIVACYIDEA_CONFIG_DIR \
-		&& touch $PI_LOGFILE && chown 1000:2000 $PI_LOGFILE
+EXPOSE 5000
 
-WORKDIR $PRIVACYIDEA_CONFIG_DIR
-USER 1000:2000
+VOLUME /etc/privacyidea
+VOLUME /var/log/privacyidea
+VOLUME /var/lib/privacyidea
+VOLUME /var/lib/mysql
 
-# uWSGI configuration (customize as needed):
-ENV UWSGI_HTTP=:8000 UWSGI_MASTER=1 UWSGI_WORKERS=8 UWSGI_THREADS=1 UWSGI_UID=1000 UWSGI_GID=2000 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
-
-#Start uWSGI
-CMD ["./docker-entrypoint.sh"]
+ENTRYPOINT ["/sbin/entrypoint.sh"]
+CMD ["/usr/bin/supervisord","-n","-c", "/etc/supervisord.conf"]

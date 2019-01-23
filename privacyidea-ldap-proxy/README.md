@@ -11,7 +11,8 @@ These steps will install privacyidea-ldap-proxy using Docker. You can use privac
         docker container rm -f $(docker container ls -aq)
         docker rmi $(docker images -a -q)
         docker system prune -a -f
-
+        docker volume rm $(docker volume ls -q | grep privacyidea_)
+      
 3. Prepare your configuration
 
         mkdir -p /opt/privacyIdeaLDAPProxy
