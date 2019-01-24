@@ -6,6 +6,8 @@ These steps will install privacyidea-ldap-proxy using Docker. You can use privac
    https://docs.docker.com/install/linux/docker-ce/centos/
    https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
+   Make sure to have NTP running on your Host (Zimbra server) or wherever your docker containers run, so they all get the correct time.
+
 2. Clean existing docker, optional step if you run into problems, it will remove all your existing docker data:
 
         docker container rm -f $(docker container ls -aq)
@@ -57,6 +59,12 @@ These steps will install privacyidea in a Docker container that can be run on a 
         cd privacyidea
         docker image build -t privacy-idea .  
 
-11. Test run the privacy-idea container
+11. Create storage volumes
 
-        docker container run privacy-idea
+        docker volume create --name privacyidea_data
+        docker volume create --name privacyidea_log
+        docker volume create --name privacyidea_mariadb
+
+12. Test run the privacy-idea container
+
+        docker run --init -p 5000:80 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -d privacy-idea
