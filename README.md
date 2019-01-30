@@ -92,6 +92,16 @@ These steps will install privacyidea and privacyidea-ldap-proxy using Docker. Yo
     
 10. Now you can configure your Zimbra Domain with external authentication, basically pointing it to the LDAP Proxy
 
+    Follow the steps in the screenshots like so, you must set Zimbra to use a bind dn, even a bind dn that is not privileged will work.
+
+    ![11-zimbra-auth-external.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/11-zimbra-auth-external.png)
+![12-zimbra-ldap-filter.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/12-zimbra-ldap-filter.png)
+![13-zimbra-ldap-binddn.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/13-zimbra-ldap-binddn.png)
+![14-zimbra-ldap-test.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/14-zimbra-ldap-test.png)
+![15-zimbra-ldap-test2.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/15-zimbra-ldap-test2.png)
+![15-zimbra-ldap-test3.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/15-zimbra-ldap-test3.png)
+![16-zimbra-ldap-done.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/16-zimbra-ldap-done.png)
+
 11. If it all works, don't forget to run as Zimbra user: `zmprov md example.com zimbraAuthFallbackToLocal FALSE`
 
 to-do implement api: https://privacyidea.readthedocs.io/en/latest/modules/api/validate.html?highlight=transaction_id#post--validate-check
