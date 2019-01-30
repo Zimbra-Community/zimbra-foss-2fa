@@ -1,19 +1,38 @@
-# Installing PrivacyIDEA LDAP Proxy
+# Installing PrivacyIDEA Docker Containers
 
-These steps will install privacyidea-ldap-proxy using Docker. You can use privacyidea-ldap-proxy to add OTP features to systems that normally only support LDAP authentication. This Docker container can be run on a Zimbra mailbox node, combined with a PrivacyIDEA server this adds 2FA to Zimbra. 
+These steps will install privacyidea and privacyidea-ldap-proxy using Docker. You can use privacyidea-ldap-proxy to add OTP features to systems that normally only support LDAP authentication. This Docker container can be run on a Zimbra mailbox node, combined with a PrivacyIDEA server this adds 2FA to Zimbra. 
 
 1. Install docker-ce (you cannot use your distro's docker) see:
    https://docs.docker.com/install/linux/docker-ce/centos/
    https://docs.docker.com/install/linux/docker-ce/ubuntu/
+   
+   Enable docker on server startup: systemctl enable docker
+   Start docker now: systemctl start docker
 
-   Make sure to have NTP running on your Host (Zimbra server) or wherever your docker containers run, so they all get the correct time.
+   Make sure to have NTP running on your Host (Zimbra server) or wherever your docker containers run, so they all get the correct time. 
+   
+   yum install -y ntpdate
+   ntpdate 0.us.pool.ntp.org
+   which ntpdate (remember full path)
+   and then add to crontab using `crontab -e`
+   1 * * * * (add full path here)/ntpdate 0.us.pool.ntp.org
+   
+   for CentOS it will be:
+   1 * * * * /usr/sbin/ntpdate 0.us.pool.ntp.org
+   
+2. Create storage volumes
 
-2. Clean existing docker, optional step if you run into problems, it will remove all your existing docker data:
+        docker volume create --name privacyidea_data
+        docker volume create --name privacyidea_log
+        docker volume create --name privacyidea_mariadb
 
-        docker container rm -f $(docker container ls -aq)
-        docker rmi $(docker images -a -q)
-        docker system prune -a -f
-        docker volume rm $(docker volume ls -q | grep privacyidea_)
+6. Test run the privacy-idea container
+
+        docker run --init -p 5000:80 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -d privacy-idea
+
+
+
+      
       
 3. Prepare your configuration
 
@@ -21,10 +40,6 @@ These steps will install privacyidea-ldap-proxy using Docker. You can use privac
         cd /opt/privacyIdeaLDAPProxy
         wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/config.ini
 
-4.  Get the installer
-
-        git clone https://github.com/Zimbra-Community/zimbra-foss-2fa
-        cd zimbra-foss-2fa
 
 5. Build your docker image
 
@@ -48,23 +63,4 @@ These steps will install privacyidea-ldap-proxy using Docker. You can use privac
        docker-compose logs -f privacy-idea-ldap-proxy
 
        
-       
-# Installing PrivacyIDEA
-
-These steps will install privacyidea in a Docker container that can be run on a Zimbra mailbox node, combined with PrivacyIDEA LDAP Proxy from above this adds 2FA to Zimbra.
-
-10. Build the docker image
-
-        cd ..
-        cd privacyidea
-        docker image build -t privacy-idea .  
-
-11. Create storage volumes
-
-        docker volume create --name privacyidea_data
-        docker volume create --name privacyidea_log
-        docker volume create --name privacyidea_mariadb
-
-12. Test run the privacy-idea container
-
-        docker run --init -p 5000:80 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -d privacy-idea
+    

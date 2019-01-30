@@ -1,25 +1,28 @@
 version: '3'
 services:
-  privacy-idea-ldap-proxy:
-    image: privacy-idea-ldap-proxy:latest
-    volumes:
-      - "/opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy"
-    restart: always
-    ports:
-      - "1389:1389"
-    networks:
-      app_net:
-        ipv4_address: 192.168.17.250
+#  privacy-idea-ldap-proxy:
+#    image: privacy-idea-ldap-proxy:latest
+#    volumes:
+#      - "/opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy"
+#    restart: always
+#    ports:
+#      - "1389:1389"
+#    networks:
+#      app_net:
+#        ipv4_address: 172.17.0.250
 
   privacy-idea:
-    env_file:
-      - privacyidea/privacyidea.env
-    image: privacy-idea:latest
+    volumes:
+      - "privacyidea_data:/etc/privacyidea"
+      - "privacyidea_log:/var/log/privacyidea"
+      - "privacyidea_mariadb:/var/lib/mysql"
+    restart: always
+    image: zetalliance/privacy-idea:latest
     ports:
-      - "8000:8000"
+      - "5000:80"
     networks:
       app_net:
-        ipv4_address: 192.168.17.252
+        ipv4_address: 172.17.0.252
         
 networks:
   app_net:
@@ -29,4 +32,5 @@ networks:
     ipam:
       driver: default
       config:
-      - subnet: 192.168.17.0/24
+      - subnet: 172.17.0.0/24
+
