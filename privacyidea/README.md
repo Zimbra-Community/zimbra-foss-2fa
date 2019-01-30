@@ -19,15 +19,3 @@ These are the steps to build a fresh docker image, it is basically the source fo
 
         cd privacyidea
         docker image build -t privacy-idea .  
-
-4. Create storage volumes
-
-        docker volume create --name privacyidea_data
-        docker volume create --name privacyidea_log
-        docker volume create --name privacyidea_mariadb
-
-5. Test run the privacy-idea container
-
-        docker run --init -p 5000:80 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -d privacy-idea
-
-        You should be able to connect to a UI at port 5000 it can take a couple of minutes for it to start. Default username: admin/test (you change it!!)

@@ -76,6 +76,21 @@ RUN pip install -r requirements.txt
 RUN pip install MySQL-python
 RUN pip install privacyidea
 
+
+# Install the PrivacyIDEA LDAP Proxy
+
+RUN mkdir /opt/privacyIdeaLDAPProxy
+RUN yum install -y which git
+ADD https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/requirements.txt /app/
+WORKDIR /app
+RUN pip install -r /app/requirements.txt
+
+RUN git clone https://github.com/privacyidea/privacyidea-ldap-proxy
+WORKDIR /app/privacyidea-ldap-proxy
+RUN pip install .
+
+RUN echo -e "[program:ldapproxy]\ncommand=twistd -n ldap-proxy -c /opt/privacyIdeaLDAPProxy/config.ini\nredirect_stderr=true" > /etc/supervisord.d/ldapproxy.ini
+
 #Debug anyone?
 #ENTRYPOINT ["sleep", "500"]
 ENTRYPOINT ["/usr/bin/supervisord", "-n","-c","/etc/supervisord.conf"]
