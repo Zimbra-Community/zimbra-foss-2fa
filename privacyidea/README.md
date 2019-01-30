@@ -1,4 +1,4 @@
-==== Docker image for PrivacyIDEA ====
+# Docker image for PrivacyIDEA
 
 These are the steps to build a fresh docker image, it is basically the source for our image at Docker Hub.
 

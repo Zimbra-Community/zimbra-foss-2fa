@@ -11,14 +11,16 @@ These steps will install privacyidea and privacyidea-ldap-proxy using Docker. Yo
 
    Make sure to have NTP running on your Host (Zimbra server) or wherever your docker containers run, so they all get the correct time. 
    
-   yum install -y ntpdate
-   ntpdate 0.us.pool.ntp.org
-   which ntpdate (remember full path)
+   `yum install -y ntpdate`
+   `ntpdate 0.us.pool.ntp.org`
+   `which ntpdate` (remember full path)
    and then add to crontab using `crontab -e`
-   1 * * * * (add full path here)/ntpdate 0.us.pool.ntp.org
+   
+         1 * * * * (add full path here)/ntpdate 0.us.pool.ntp.org
    
    for CentOS it will be:
-   1 * * * * /usr/sbin/ntpdate 0.us.pool.ntp.org
+   
+         1 * * * * /usr/sbin/ntpdate 0.us.pool.ntp.org
 
 2. If you want, you can build your own Docker image, that way you have the latest version of everything and get some know-how along the way. See https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/privacyidea/README.md
    
@@ -44,7 +46,7 @@ These steps will install privacyidea and privacyidea-ldap-proxy using Docker. Yo
        echo $zimbra_ldap_userdn
        ldapsearch -x -H $ldap_master_url -D $zimbra_ldap_userdn -w $zimbra_ldap_password "mail=*"
 
-This will allow you to find your base DN as well. Usually something like `ou=people,dc=example,dc=com` don't forget to hit the `Preset OpenLDAP`.
+   This will allow you to find your base DN as well. Usually something like `ou=people,dc=example,dc=com` don't forget to hit the `Preset OpenLDAP`.
 
 
 ![01-pi-ldap.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/01-pi-ldap.png)
