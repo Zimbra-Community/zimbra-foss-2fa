@@ -71,7 +71,7 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 
         docker run --init -p 5000:443 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
 
-   You should be able to connect to PrivacyIDEA at http://yourzimbra:5000/ it can take a couple of minutes for it to start. Default username: admin/test (you change it!!), if you can't connect, perhaps you have a firewall? In case you do not want to open your firewall and you work on a remote server, you can tunnel it over ssh like so `ssh -L 5000:localhost:5000 root@yourzimbraserver.com` then you can access using http://localhost:5000 from your computer. Do not create the Initial Realm if PrivacyIDEA asks you!
+   You should be able to connect to PrivacyIDEA at https://yourzimbra:5000/ it can take a couple of minutes for it to start. Default username: admin/test (you change it now by running `docker exec -it privacyidea /usr/bin/pi-manage admin change -p admin`). Do not create the Initial Realm if PrivacyIDEA asks you when you log in to the web interface!
 
 7. Configure PrivacyIDEA
 
