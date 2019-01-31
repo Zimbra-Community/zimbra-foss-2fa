@@ -62,6 +62,14 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 
 6. Configure PrivacyIDEA
 
+    On your Zimbra allow the docker container to access the Zimbra ldap.
+
+       firewall-cmd --permanent --zone=public --add-rich-rule='
+          rule family="ipv4"
+          source address="172.17.0.2/32"
+          port protocol="tcp" port="389" accept'
+       firewall-cmd --reload
+
    Do not create the Initial Realm if PrivacyIDEA asks you! On your Zimbra server find out on what IP ldap listens `netstat -tulpn | grep 389` and configure PrivacyIDEA as in the screenshots. To find out your LDAP settings (run as zimbra user):
 
        source ~/bin/zmshutil 
