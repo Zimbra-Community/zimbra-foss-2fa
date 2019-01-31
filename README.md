@@ -111,6 +111,9 @@ For now there is no separate login screen for the 2FA token, so the user must ap
     ![11-zimbra-auth-external.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/11-zimbra-auth-external.png)
 ![12-zimbra-ldap-filter.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/12-zimbra-ldap-filter.png)
 ![13-zimbra-ldap-binddn.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/13-zimbra-ldap-binddn.png)
+
+   Please note there is a bug in Zimbra, if the test keeps failing, just continue and finish the setup wizard. Then try again. Usually that is when the test starts working.
+
 ![14-zimbra-ldap-test.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/14-zimbra-ldap-test.png)
 ![15-zimbra-ldap-test2.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/15-zimbra-ldap-test2.png)
 ![15-zimbra-ldap-test3.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/15-zimbra-ldap-test3.png)
