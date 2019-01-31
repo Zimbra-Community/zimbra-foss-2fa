@@ -54,13 +54,26 @@ For now there is no separate login screen for the 2FA token, so the user must ap
         
    Open the config.ini and set the `password` under `service-account` and set the correct IP in `endpoint` under `ldap-backend`. It is the IP from the netstat result.
 
-5. Run the privacy-idea container
 
-        docker run --init --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
+5. Add your SSL certificates
+
+   If you use a Zimbra self signed SSL cert:
+   
+        cp /opt/zimbra/ssl/zimbra/server/server.key /opt/privacyIdeaLDAPProxy/server.key
+        cp /opt/zimbra/conf/nginx.crt /opt/privacyIdeaLDAPProxy/server.crt
+
+   If you have deployed a real certificate:
+   
+        cp /opt/zimbra/ssl/zimbra/commercial/commercial.key /opt/privacyIdeaLDAPProxy/server.key
+        cp /opt/zimbra/conf/nginx.crt /opt/privacyIdeaLDAPProxy/server.crt
+
+6. Run the privacy-idea container
+
+        docker run --init -p 5000:443 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
 
    You should be able to connect to PrivacyIDEA at http://yourzimbra:5000/ it can take a couple of minutes for it to start. Default username: admin/test (you change it!!), if you can't connect, perhaps you have a firewall? In case you do not want to open your firewall and you work on a remote server, you can tunnel it over ssh like so `ssh -L 5000:localhost:5000 root@yourzimbraserver.com` then you can access using http://localhost:5000 from your computer. Do not create the Initial Realm if PrivacyIDEA asks you!
 
-6. Configure PrivacyIDEA
+7. Configure PrivacyIDEA
 
     On your Zimbra allow the docker container to access the Zimbra ldap.
 
@@ -89,9 +102,9 @@ For now there is no separate login screen for the 2FA token, so the user must ap
    
 ![04-pi-policy.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/04-pi-policy.png)   
 
-7. You can now enroll TOTP tokens for the users
+8. You can now enroll TOTP tokens for the users
 
-8. Try and see if it works by doing LDAP searches
+9. Try and see if it works by doing LDAP searches
 
    You must append to OTP code to the password like so:
 
@@ -100,11 +113,11 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 
    If it does not work, check if PrivacyIDEA works directly using the API `curl -d "user=user1&pass=testabc387223" -X POST http://zimbraserver:5000/validate/check`, don't forget your firewall.
      
-9. Debug and reading the logs
+10. Debug and reading the logs
 
    You can run commands in the docker container by doing `docker exec -it privacyidea bash` and you can see the logs using `tail -f /var/lib/docker/volumes/privacyidea_log/_data/privacyidea.log` on the Zimbra server. And `docker container logs privacyidea`.
     
-10. Now you can configure your Zimbra Domain with external authentication, basically pointing it to the LDAP Proxy
+11. Now you can configure your Zimbra Domain with external authentication, basically pointing it to the LDAP Proxy
 
     Follow the steps in the screenshots like so, you must set Zimbra to use a bind dn, even a bind dn that is not privileged will work.
 
@@ -119,9 +132,9 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 ![15-zimbra-ldap-test3.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/15-zimbra-ldap-test3.png)
 ![16-zimbra-ldap-done.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/16-zimbra-ldap-done.png)
 
-11. If it all works, don't forget to run as Zimbra user: `zmprov md example.com zimbraAuthFallbackToLocal FALSE`
+12. If it all works, don't forget to run as Zimbra user: `zmprov md example.com zimbraAuthFallbackToLocal FALSE`
 
-12. Create the following optional PrivacyIDEA policies
+13. Create the following optional PrivacyIDEA policies
 
     ![21-policy-token-name.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/21-policy-token-name.png)
 ![22-policy-hide-pi-banners.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/22-policy-hide-pi-banners.png)

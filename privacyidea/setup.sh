@@ -26,4 +26,4 @@ pi-manage create_audit_keys
 pi-manage createdb
 pi-manage admin add admin -e admin@localhost -p 'test'
 
-pi-manage runserver -h 0.0.0.0 -p 80
+pi-manage runserver -h 0.0.0.0 -p 8000

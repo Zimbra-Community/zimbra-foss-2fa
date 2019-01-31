@@ -43,14 +43,14 @@ perl-Try-Tiny perl-Data-Dump perl-JSON perl-LWP-Protocol-http* libffi-devel \
 freetype-devel libpng-devel
 
 #We could include apache if we want to do https...
-#RUN echo -e "[program:apache2]\ncommand=/usr/sbin/apachectl -D \"FOREGROUND\" -k start\nredirect_stderr=true" > /etc/supervisord.d/httpd.ini
+RUN echo -e "[program:apache2]\ncommand=/usr/sbin/apachectl -D \"FOREGROUND\" -k start\nredirect_stderr=true" > /etc/supervisord.d/httpd.ini
 RUN echo -e "[program:mysqld]\ncommand=/usr/bin/mysqld_safe --basedir='/usr' --datadir='/var/lib/mysql'\nredirect_stderr=true" > /etc/supervisord.d/mysqld.ini
 
 #FIXME: run this only once
 RUN echo -e "[program:init]\ncommand=/setup.sh\nredirect_stderr=true" > /etc/supervisord.d/init.ini
 
-
-EXPOSE 80/tcp
+RUN rm -f /etc/httpd/conf.d/*
+ADD ssl.conf /etc/httpd/conf.d/ssl.conf
 
 ADD setup.sh /setup.sh
 RUN chmod +rx /setup.sh
