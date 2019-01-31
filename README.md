@@ -54,7 +54,7 @@ The installation takes around 1GB of space.
        cd /opt/privacyIdeaLDAPProxy
        wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/config.ini
         
-   Open the config.ini and set the `password` under `service-account` and set the correct IP in `endpoint` under `ldap-backend`. It is the IP from the netstat result, it must not be 127.0.0.1 or 172.* or so.
+   Open the config.ini and set the `password` under `service-account` and set the correct IP in `endpoint` under `ldap-backend`. It is the IP from the netstat result, it must not be 127.0.0.1 or 172.* or so. If your ldap listens on 127.0.0.1, do a `zmcontrol stop` set the correct ip in /etc/hosts and then `zmcontrol start`.
 
 
 5. Add your SSL certificates
