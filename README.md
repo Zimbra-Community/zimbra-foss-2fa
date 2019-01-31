@@ -122,7 +122,7 @@ The installation takes around 1GB of space.
     
 11. Now you can configure your Zimbra Domain with external authentication, basically pointing it to the LDAP Proxy
 
-    Follow the steps in the screenshots like so, you must set Zimbra to use a bind dn, even a bind dn that is not privileged will work.
+    Follow the steps in the screenshots like so, you must set Zimbra to use a bind dn, even a bind dn that is not privileged will work. You may need to create one in the correct domain.
 
     ![11-zimbra-auth-external.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/11-zimbra-auth-external.png)
 ![12-zimbra-ldap-filter.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/12-zimbra-ldap-filter.png)
@@ -142,5 +142,8 @@ The installation takes around 1GB of space.
     ![21-policy-token-name.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/21-policy-token-name.png)
 ![22-policy-hide-pi-banners.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/22-policy-hide-pi-banners.png)
 
+14. Admin account and 2FA
+
+   At this time, Zimbra will still allow using only a password for admin accounts, this is a bug. See https://github.com/Zimbra/zm-mailbox/pull/448 and https://bugzilla.zimbra.com/show_bug.cgi?id=80485 this means, you need to create a separate admin account, but a long password on it, and don't use it for day-to-day work.
 
 to-do implement api: https://privacyidea.readthedocs.io/en/latest/modules/api/validate.html?highlight=transaction_id#post--validate-check
