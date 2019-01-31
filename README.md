@@ -45,13 +45,12 @@ For now there is no separate login screen for the 2FA token, so the user must ap
        zmsetvars 
        echo $zimbra_ldap_password
        echo $zimbra_ldap_userdn
-       ldapsearch -x -H $ldap_master_url -D $zimbra_ldap_userdn -w $zimbra_ldap_password "mail=*"
 
-   This will allow you to find your base DN as well. Usually something like `ou=people,dc=example,dc=com` don't forget to hit the `Preset OpenLDAP`.
+   As root:
 
-        mkdir -p /opt/privacyIdeaLDAPProxy
-        cd /opt/privacyIdeaLDAPProxy
-        wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/config.ini
+       mkdir -p /opt/privacyIdeaLDAPProxy
+       cd /opt/privacyIdeaLDAPProxy
+       wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/config.ini
         
    Open the config.ini and set the `password` under `service-account` and set the correct IP in `endpoint` under `ldap-backend`. It is the IP from the netstat result.
 
