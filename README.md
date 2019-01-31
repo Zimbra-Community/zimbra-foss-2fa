@@ -112,7 +112,7 @@ For now there is no separate login screen for the 2FA token, so the user must ap
        ldapsearch -x -H ldap://zimbraserver:389 -D uid=user2,ou=people,dc=zimbradev,dc=barrydegraaff,dc=tk -w "PASSWORD HERE" "mail=*"
        ldapsearch -x -H ldap://172.18.0.2:1389 -D uid=user2,ou=people,dc=zimbradev,dc=barrydegraaff,dc=tk -w "PASSWORD HERE***OTP HERE***" "mail=*"
 
-   If it does not work, check if PrivacyIDEA works directly using the API `curl -d "user=user1&pass=testabc387223" -X POST http://zimbraserver:5000/validate/check`, don't forget your firewall.
+   If it does not work, check if PrivacyIDEA works directly using the API `curl -d "user=user1&pass=testabc387223" -X POST https://zimbraserver:5000/validate/check` or from the Zimbra server `curl -d "user=user1&pass=testabc944412" -X POST http://172.18.0.2:8000/validate/check`.
      
 10. Debug and reading the logs
 
