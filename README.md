@@ -85,7 +85,7 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 ![02-pi-resolver.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/02-pi-resolver.png)
 ![03-pi-users.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/03-pi-users.png)
 
-   Go to config -> policies -> create new policy and set a policy with scope `authentication` and set passthru->userstore and otppin->userstore. See the documentation: https://privacyidea.readthedocs.io/en/latest/policies/authentication.html
+   Go to config -> policies -> create new policy and set a policy with scope `authentication` and set passthru->userstore and otppin->userstore. Realm: Zimbra, Resolver: Zimbra. See the documentation: https://privacyidea.readthedocs.io/en/latest/policies/authentication.html
    
 ![04-pi-policy.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/04-pi-policy.png)   
 
