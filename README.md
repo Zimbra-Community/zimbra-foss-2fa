@@ -8,6 +8,8 @@ This project uses an LDAP Proxy provided by PrivacyIDEA. So the usernames and pa
 
 For now there is no separate login screen for the 2FA token, so the user must append the 2FA code to the password. Also we do not have a Zimbra integrated user UI yet. So for now you can proxy the PrivacyIDEA UI with Zimbra proxy. So the user can add/remove tokens that way.
 
+The installation takes around 1GB of space.
+
 1. Install docker-ce (you cannot use your distro's docker) see:
    https://docs.docker.com/install/linux/docker-ce/centos/
    https://docs.docker.com/install/linux/docker-ce/ubuntu/
