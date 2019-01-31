@@ -34,7 +34,6 @@ RUN sed -i 's|^enabled=1|enabled=1\npriority=10|' /etc/yum.repos.d/epel.repo
 
 RUN yum -y update
 RUN yum -y groupinstall 'Development Tools'
-#RUN yum -y install open-vm-tools net-tools
 RUN yum -y install supervisor
 RUN yum -y install libxslt-devel libxml2-devel python-pip
 
@@ -51,7 +50,6 @@ RUN echo -e "[program:mysqld]\ncommand=/usr/bin/mysqld_safe --basedir='/usr' --d
 RUN echo -e "[program:init]\ncommand=/setup.sh\nredirect_stderr=true" > /etc/supervisord.d/init.ini
 
 
-#FIXME: move to docker-compose.yml
 EXPOSE 80/tcp
 
 ADD setup.sh /setup.sh

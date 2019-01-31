@@ -15,6 +15,10 @@
     done
 mysql -u root -e "create database if not exists pi;" || true
 
+#Set the SECRET_KEY and PI_PEPPER to a random value for this instance
+sed -i 's!t0p s3cr3t!'$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-24};echo;)'!' /etc/privacyidea/pi.cfg
+sed -i 's!Never know...!'$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-24};echo;)'!' /etc/privacyidea/pi.cfg
+
 cd /opt/privacyIDEA
 
 pi-manage create_enckey

@@ -1,6 +1,12 @@
-# Installing PrivacyIDEA Docker Containers
+# Installing Zimbra Open Source Two Factor Authentication with PrivacyIDEA
 
-These steps will install privacyidea and privacyidea-ldap-proxy using Docker. You can use privacyidea-ldap-proxy to add OTP features to systems that normally only support LDAP authentication. This Docker container can be run on a Zimbra mailbox node, combined with a PrivacyIDEA server this adds 2FA to Zimbra. 
+These steps will set-up your Zimbra Open Source Edition server with Two Factor Authentication. The 2FA parts are powered by PrivacyIDEA and will run in a Docker container on your Zimbra server.
+
+Technically this makes Zimbra support all 2FA tokens PrivacyIDEA supports. This includes TOTP, HOTP, Yubikey, TAN, SMS and U2F. This is much more than the Zimbra Network edition, which only supports TOTP.
+
+This project uses an LDAP Proxy provided by PrivacyIDEA. So the usernames and passwords are read by PrivacyIDEA from the Zimbra LDAP (or ActiveDirectory if you want). And the 2FA tokens are read from PrivacyIDEA database. The user can log in using 2FA by typing the username and the password and token. 
+
+For now there is no separate login screen for the 2FA token, so the user must append the 2FA code to the password. Also we do not have a Zimbra integrated user UI yet. So for now you can proxy the PrivacyIDEA UI with Zimbra proxy. So the user can add/remove tokens that way.
 
 1. Install docker-ce (you cannot use your distro's docker) see:
    https://docs.docker.com/install/linux/docker-ce/centos/
@@ -11,9 +17,10 @@ These steps will install privacyidea and privacyidea-ldap-proxy using Docker. Yo
 
    Make sure to have NTP running on your Host (Zimbra server) or wherever your docker containers run, so they all get the correct time. 
    
-   `yum install -y ntpdate`
-   `ntpdate 0.us.pool.ntp.org`
-   `which ntpdate` (remember full path)
+       yum install -y ntpdate
+       ntpdate 0.us.pool.ntp.org
+       which ntpdate  #remember the full path
+   
    and then add to crontab using `crontab -e`
    
          1 * * * * (add full path here)/ntpdate 0.us.pool.ntp.org
@@ -103,5 +110,11 @@ These steps will install privacyidea and privacyidea-ldap-proxy using Docker. Yo
 ![16-zimbra-ldap-done.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/16-zimbra-ldap-done.png)
 
 11. If it all works, don't forget to run as Zimbra user: `zmprov md example.com zimbraAuthFallbackToLocal FALSE`
+
+12. Create the following optional PrivacyIDEA policies
+
+    ![21-policy-token-name.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/21-policy-token-name.png)
+![22-policy-hide-pi-banners.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/22-policy-hide-pi-banners.png)
+
 
 to-do implement api: https://privacyidea.readthedocs.io/en/latest/modules/api/validate.html?highlight=transaction_id#post--validate-check
