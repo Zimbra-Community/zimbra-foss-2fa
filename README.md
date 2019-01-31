@@ -69,7 +69,8 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 
 6. Run the privacy-idea container
 
-        docker run --init -p 5000:443 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
+        docker network create --subnet=172.18.0.0/16 zimbradocker
+        docker run --init --net zimbradocker --ip 172.18.0.2 -p 5000:443 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
 
    You should be able to connect to PrivacyIDEA at https://yourzimbra:5000/ it can take a couple of minutes for it to start. Default username: admin/test (you change it now by running `docker exec -it privacyidea /usr/bin/pi-manage admin change -p admin`). Do not create the Initial Realm if PrivacyIDEA asks you when you log in to the web interface!
 
@@ -79,7 +80,7 @@ For now there is no separate login screen for the 2FA token, so the user must ap
 
        firewall-cmd --permanent --zone=public --add-rich-rule='
           rule family="ipv4"
-          source address="172.17.0.2/32"
+          source address="172.18.0.2/32"
           port protocol="tcp" port="389" accept'
        firewall-cmd --reload
 
@@ -109,7 +110,7 @@ For now there is no separate login screen for the 2FA token, so the user must ap
    You must append to OTP code to the password like so:
 
        ldapsearch -x -H ldap://zimbraserver:389 -D uid=user2,ou=people,dc=zimbradev,dc=barrydegraaff,dc=tk -w "PASSWORD HERE" "mail=*"
-       ldapsearch -x -H ldap://172.17.0.2:1389 -D uid=user2,ou=people,dc=zimbradev,dc=barrydegraaff,dc=tk -w "PASSWORD HERE***OTP HERE***" "mail=*"
+       ldapsearch -x -H ldap://172.18.0.2:1389 -D uid=user2,ou=people,dc=zimbradev,dc=barrydegraaff,dc=tk -w "PASSWORD HERE***OTP HERE***" "mail=*"
 
    If it does not work, check if PrivacyIDEA works directly using the API `curl -d "user=user1&pass=testabc387223" -X POST http://zimbraserver:5000/validate/check`, don't forget your firewall.
      
