@@ -38,7 +38,6 @@ psycopg2>=2.6
 py==1.5.3
 pyasn1==0.4.3
 pycparser==2.18
-pycrypto==2.6.1
 Pygments==2.2.0
 PyJWT==1.6.4
 PyMySQL==0.8.1
@@ -53,7 +52,7 @@ python-dateutil==2.7.3
 python-gnupg==0.4.3
 pytz==2018.4
 pyusb==1.0.2
-PyYAML==3.12
+pyyaml>=4.2b1
 qrcode==6.0
 redis==2.10.6
 requests==2.20.0

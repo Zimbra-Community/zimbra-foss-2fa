@@ -14,7 +14,6 @@ packaging==16.8
 pyasn1==0.1.9
 pyasn1-modules==0.0.9
 pycparser==2.19
-pycrypto==2.6.1
 pyOpenSSL==18.0.0
 pyparsing==2.1.10
 service-identity==17.0.0
