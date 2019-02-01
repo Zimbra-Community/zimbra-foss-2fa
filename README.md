@@ -94,14 +94,20 @@ The installation takes around 1GB of space.
        echo $zimbra_ldap_userdn
        ldapsearch -x -H $ldap_master_url -D $zimbra_ldap_userdn -w $zimbra_ldap_password "mail=*"
 
-   This will allow you to find your base DN as well. Usually something like `ou=people,dc=example,dc=com` don't forget to hit the `Preset OpenLDAP`.
+   This will allow you to find your base DN as well. Usually something like `ou=people,dc=example,dc=com` don't forget to hit the `Preset OpenLDAP` and set `Loginname Attribute` to `mail`.
 
 
 ![01-pi-ldap.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/01-pi-ldap.png)
+
+   If you need to support multiple domains, you must create an ldap-resolver for each domain. (Just repeat as screenshot) To tell them apart choose a resolver name that contains the domain name (example: examplecom).
+
 ![02-pi-resolver.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/02-pi-resolver.png)
+
+   You MUST use only one REALM and it should include all your resolvers. If you do something else, the ldap-proxy will not work.
+
 ![03-pi-users.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/03-pi-users.png)
 
-   Go to config -> policies -> create new policy and set a policy with scope `authentication` and set passthru->userstore and otppin->userstore. Realm: Zimbra, Resolver: Zimbra. See the documentation: https://privacyidea.readthedocs.io/en/latest/policies/authentication.html
+   Go to config -> policies -> create new policy and set a policy with scope `authentication` and set passthru->userstore and otppin->userstore. Realm: Zimbra, Resolver: SELECT THEM ALL! See the documentation: https://privacyidea.readthedocs.io/en/latest/policies/authentication.html
    
 ![04-pi-policy.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/04-pi-policy.png)   
 
@@ -122,7 +128,7 @@ The installation takes around 1GB of space.
     
 11. Now you can configure your Zimbra Domain with external authentication, basically pointing it to the LDAP Proxy
 
-    Follow the steps in the screenshots like so, you must set Zimbra to use a bind dn, even a bind dn that is not privileged will work. You may need to create one in the correct domain.
+    Follow the steps in the screenshots like so, you must set Zimbra to use a bind dn, even a bind dn that is not privileged will work. You may need to create one in the correct domain. And you should repeat these steps for each domain you want to have 2FA.
 
     ![11-zimbra-auth-external.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/11-zimbra-auth-external.png)
 ![12-zimbra-ldap-filter.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/12-zimbra-ldap-filter.png)
