@@ -152,10 +152,13 @@ The installation takes around 1GB of space.
 
    At this time, Zimbra will still allow using only a password for admin accounts, this is a bug. See https://github.com/Zimbra/zm-mailbox/pull/448 and https://bugzilla.zimbra.com/show_bug.cgi?id=80485 this means, you need to create a separate admin account, put a long password on it, and don't use it for day-to-day work.
 
-15. Update the Zimbra login screen.
+15. Update the Zimbra login screen
 
    Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/login-jsp-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/public/login.jsp the patch needs to be added just before the final </script> tag.
 
+16. Update the Zimbra change password dialog
+
+   Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/changepass-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/h/changepass the patch needs to be added just before the final </body> tag.
 
 ## To-do's
 
