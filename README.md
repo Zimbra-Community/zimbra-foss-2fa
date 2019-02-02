@@ -154,11 +154,11 @@ The installation takes around 1GB of space.
 
 15. Update the Zimbra login screen
 
-   Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/login-jsp-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/public/login.jsp the patch needs to be added just before the final </script> tag.
+   Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/login-jsp-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/public/login.jsp the patch needs to be added just before the final </script> tag. You need to repeat this whenever you upgrade Zimbra to a new version.
 
 16. Update the Zimbra change password dialog
 
-   Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/changepass-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/h/changepass the patch needs to be added just before the final </body> tag.
+   Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/changepass-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/h/changepass the patch needs to be added just before the final </body> tag. You need to repeat this whenever you upgrade Zimbra to a new version.
 
 ## To-do's
 
