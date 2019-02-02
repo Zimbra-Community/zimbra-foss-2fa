@@ -99,11 +99,11 @@ The installation takes around 1GB of space.
 
 ![01-pi-ldap.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/01-pi-ldap.png)
 
-   If you need to support multiple domains, you must create an ldap-resolver for each domain. (Just repeat as screenshot) To tell them apart choose a resolver name that contains the domain name (example: examplecom).
+   If you need to support multiple domains, you must create an ldap-resolver for each domain. (Just repeat as screenshot) To tell them apart choose a resolver name that contains the domain name (example: examplecom). Only use alpabethical characters for resolver/realm name no special characters (including .-) etc, or it will break.
 
 ![02-pi-resolver.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/02-pi-resolver.png)
 
-   You MUST use only one REALM and it should include all your resolvers. If you do something else, the ldap-proxy will not work.
+   You MUST use only one REALM and it should include all your resolvers. If you do something else, the ldap-proxy will not work.  Only use alpabethical characters for resolver/realm name no special characters (including .-) etc, or it will break.
 
 ![03-pi-users.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/03-pi-users.png)
 
@@ -165,3 +165,4 @@ The installation takes around 1GB of space.
 - Implement Zimlet to add/remove token? using https://privacyidea.readthedocs.io/en/latest/modules/api/validate.html?highlight=transaction_id#post--validate-check
 - Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
 - Dockerize https://www.stefanseidel.info/Z-Push_on_Zimbra_8
+- Admin password not remeber on container restart
