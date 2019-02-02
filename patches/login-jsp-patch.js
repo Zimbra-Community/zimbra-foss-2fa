@@ -17,45 +17,9 @@ function zetaCheckEnter(e){
 }
 
 function zetaDoLogin(){
-
-   //to=do: add a request here to the back-end and see if this user needs to enter OTP
-   var needsOTP = true;
-   if(needsOTP)
-   {
-      if(!document.getElementById("zeta-otp"))
-      {
-         //Add OTP input field
-         var originalLoginForm = document.getElementsByName("loginForm");
-         originalLoginForm[0].style.display='none';
-         originalLoginForm[0].insertAdjacentHTML('beforebegin', 
-            '<table class="form" id="totpTable" style="height:140px;width:350px;">' + 
-            '<tbody>' + 
-            '<tr>' + 
-            '<td><label for="zeta-otp"><fmt:message key="twoFactorAuthCodeLabel"/>:</label></td>' + 
-            '<td><input id="zeta-otp" class="zLoginField" name="zeta-otp" type="text" value="" size="40" maxlength="1024" style="margin-right:20px" autocomplete="off" onkeypress="zetaCheckEnter(event);"></td>' + 
-            '<td class="submitTD">' +
-            '<button type="button" onclick="zetaDoLogin()" id="zetaSubmit" class="ZLoginButton DwtButton"><fmt:message key='twoFactorAuthVerifyCode'/></button></td>' + 
-            '</tr>' + 
-            '</tbody>' + 
-            '</table>'
-         );
-         document.getElementById('zeta-otp').focus();
-      }
-      else
-      {
-         //Submit the form with the OTP value
-         document.getElementById('password').value = document.getElementById('password').value + document.getElementById('zeta-otp').value;
-         zetaPerformLogin();
-      }
-   }
-   else
-   {
-      zetaPerformLogin();
-   }   
-}
-
-function zetaPerformLogin() {
-   //Perform regular login
+   //Submit the form with the OTP value 
+   document.getElementById('password').value = document.getElementById('password').value + document.getElementById('zeta-otp').value;
+   document.getElementById('zeta-otp').value = '';
    var originalSubmitButton=document.querySelectorAll('input[type=submit]');
    originalSubmitButton[0].click();
 }      
@@ -64,6 +28,13 @@ document.querySelector('form').onkeypress = zetaCheckEnter;
 var originalSubmitButton=document.querySelectorAll('input[type=submit]');
 originalSubmitButton[0].style.display='none';
 
-originalSubmitButton[0].insertAdjacentHTML('afterend', '<button type="button" onclick="zetaDoLogin()" id="zetaSubmit" class="ZLoginButton DwtButton">'+originalSubmitButton[0].value+'</Button>');
+document.getElementById('password').parentElement.parentElement.insertAdjacentHTML('afterend', 
+   '<tr>' + 
+   '<td><label for="zeta-otp">2FA:</label></td>' + 
+   '<td><input id="zeta-otp" class="zLoginField" type="text" value="" size="40" maxlength="1024" autocomplete="off" onkeypress="zetaCheckEnter(event);" placeholder="Leave blank if you have no 2FA."></td>' + 
+   '</tr>'
+);
+
+originalSubmitButton[0].insertAdjacentHTML('beforebegin', '<button type="button" onclick="zetaDoLogin()" id="zetaSubmit" class="ZLoginButton DwtButton">'+originalSubmitButton[0].value+'</Button>');
 
 /*End Zeta Alliance Zimbra FOSS 2FA patch*/
