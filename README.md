@@ -167,4 +167,4 @@ The installation takes around 1GB of space.
 - Implement Zimlet to add/remove token? using https://privacyidea.readthedocs.io/en/latest/modules/api/validate.html?highlight=transaction_id#post--validate-check
 - Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
 - Dockerize https://www.stefanseidel.info/Z-Push_on_Zimbra_8
-- Admin password not remeber on container restart
+- Change password from Zimbra Admin UI / now it only works via CLI or when the user goes via the change password screen (which requires you to enter old password)
