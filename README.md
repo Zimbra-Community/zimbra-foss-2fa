@@ -168,3 +168,10 @@ The installation takes around 1GB of space.
 - Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
 - Dockerize https://www.stefanseidel.info/Z-Push_on_Zimbra_8
 - Change password from Zimbra Admin UI / now it only works via CLI or when the user goes via the change password screen (which requires you to enter old password)
+
+   /opt/zimbra/jetty_base/webapps/zimbraAdmin/js/zimbraAdmin/accounts/view/ZaAccountXFormView.js
+   
+     ZaAccountXFormView.isAuthfromInternal =
+     function(acctName) {
+        return true;
+     }
