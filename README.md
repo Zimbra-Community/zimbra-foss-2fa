@@ -74,9 +74,11 @@ The installation takes around 1GB of space.
         docker network create --subnet=172.18.0.0/16 zimbradocker
         docker run --init --net zimbradocker --ip 172.18.0.2 -p 5000:443 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
 
-   You should be able to connect to PrivacyIDEA at https://yourzimbra:5000/ it can take a couple of minutes for it to start. Default username: admin/test (you change it now by running `docker exec -it privacyidea /usr/bin/pi-manage admin change -p admin`). Do not create the Initial Realm if PrivacyIDEA asks you when you log in to the web interface!
+   You should be able to see PrivacyIDEA at https://yourzimbra:5000/ it can take a couple of minutes for it to start. 
 
 7. Configure PrivacyIDEA
+
+    Create a new admin user on PrivacyIDEA `pi-manage admin add admin -e admin@example.com -p 'put a password here'`.
 
     On your Zimbra allow the docker container to access the Zimbra ldap.
 
@@ -99,11 +101,11 @@ The installation takes around 1GB of space.
 
 ![01-pi-ldap.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/01-pi-ldap.png)
 
-   If you need to support multiple domains, you must create an ldap-resolver for each domain. (Just repeat as screenshot) To tell them apart choose a resolver name that contains the domain name (example: examplecom). Only use alpabethical characters for resolver/realm name no special characters (including .-) etc, or it will break.
+   Only use alpabethical characters for resolver/realm name no special characters (including .-) etc, or it will break.
 
 ![02-pi-resolver.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/02-pi-resolver.png)
 
-   You MUST use only one REALM and it should include all your resolvers. If you do something else, the ldap-proxy will not work.  Only use alpabethical characters for resolver/realm name no special characters (including .-) etc, or it will break.
+   Only use alpabethical characters for resolver/realm name no special characters (including .-) etc, or it will break.
 
 ![03-pi-users.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/03-pi-users.png)
 

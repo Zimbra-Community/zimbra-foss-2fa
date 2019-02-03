@@ -24,6 +24,5 @@ cd /opt/privacyIDEA
 pi-manage create_enckey
 pi-manage create_audit_keys
 pi-manage createdb
-pi-manage admin add admin -e admin@localhost -p 'test'
 
 pi-manage runserver -h 0.0.0.0 -p 8000

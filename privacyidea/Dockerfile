@@ -27,7 +27,7 @@ RUN yum -y update \
    &&  yum -y install epel-release \
    && yum -y install yum-priorities
 
-RUN yum -y install net-tools
+RUN yum -y install net-tools nano openldap-clients
 RUN yum -y install wget curl
 
 RUN sed -i 's|^enabled=1|enabled=1\npriority=10|' /etc/yum.repos.d/epel.repo
