@@ -78,7 +78,7 @@ The installation takes around 1GB of space.
 
 7. Configure PrivacyIDEA
 
-    Create a new admin user on PrivacyIDEA `pi-manage admin add admin -e admin@example.com -p 'put a password here'`.
+    Create a new admin user on PrivacyIDEA `docker exec -it privacyidea /usr/bin/pi-manage admin add admin -e admin@example.com`.
 
     On your Zimbra allow the docker container to access the Zimbra ldap.
 
@@ -109,7 +109,7 @@ The installation takes around 1GB of space.
 
 ![03-pi-users.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/03-pi-users.png)
 
-   Go to config -> policies -> create new policy and set a policy with scope `authentication` and set passthru->userstore and otppin->userstore. Realm: Zimbra, Resolver: SELECT THEM ALL! See the documentation: https://privacyidea.readthedocs.io/en/latest/policies/authentication.html
+   Go to config -> policies -> create new policy and set a policy with scope `authentication` and set passthru->userstore and otppin->userstore. Realm: Zimbra, Resolver: Zimbra. See the documentation: https://privacyidea.readthedocs.io/en/latest/policies/authentication.html
    
 ![04-pi-policy.png](https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/screenshots/04-pi-policy.png)   
 
