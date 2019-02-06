@@ -106,9 +106,13 @@ TwoFaZimletPrefs = function(shell, section, controller, handler) {
 TwoFaZimlet.prototype.resize = function()
 {
    try {
-      var zimletInstance = appCtxt._zimletMgr.getZimletByName('tk_barrydegraaff_2fa').handlerObject;
-      zimletInstance.appHeight = (Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )-110 );         
-      document.getElementById('tk_barrydegraaff_2fa_prefscreen').style='display:block; overflow-y: scroll !important; max-height:'+zimletInstance.appHeight+'px !important';
+      if(appCtxt.getCurrentView().getActiveView()._section.id == '2FA_PREFERENCES')
+      {
+         document.title = "Zimbra: " + ZmMsg.preferences +": 2FA Account Security";   
+         var zimletInstance = appCtxt._zimletMgr.getZimletByName('tk_barrydegraaff_2fa').handlerObject;
+         zimletInstance.appHeight = (Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )-110 );         
+         document.getElementById('tk_barrydegraaff_2fa_prefscreen').style='display:block; overflow-y: auto !important; max-height:'+zimletInstance.appHeight+'px !important';
+      }
    }
    catch(err)   
    {
@@ -233,7 +237,6 @@ TwoFaZimlet.prototype.displayAppPasscode = function(args)
    var zimletInstance = appCtxt._zimletMgr.getZimletByName('tk_barrydegraaff_2fa').handlerObject;
    try {
       var data = JSON.parse(args._data.response._content);
-      console.log();
       zimletInstance._dialog.setTitle('Enter your password followed by the code as password on your app');
       zimletInstance._dialog.setContent('Code: <input value="'+data.detail.otpkey.value.replace('seed://','')+'">');
       zimletInstance._dialog.setButtonListener(DwtDialog.OK_BUTTON, new AjxListener(zimletInstance, zimletInstance.showMeImpl));
@@ -255,7 +258,6 @@ TwoFaZimlet.prototype.displayTokens = function(args)
 {
    try {
       var data = JSON.parse(args._data.response._content);
-      console.log(data);
       var tokens = data.result.value.tokens;
       for (var i = 0; i < tokens.length; i++) {
          document.getElementById('tk_barrydegraaff_2fa_currentTokens').innerHTML += '<button title=\'Failcount: '+tokens[i].failcount+'\r\nLast used: '+(tokens[i].info.last_auth ? tokens[i].info.last_auth : 'never') +'\' onclick=\'TwoFaZimlet.prototype.deleteTokens("'+tokens[i].serial+'")\' style=\'width:200px;\' >'+tokens[i].serial+'<br>'+tokens[i].description+'</button><br>';
