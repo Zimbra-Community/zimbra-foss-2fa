@@ -168,6 +168,8 @@ The installation takes around 1GB of space.
 
 - Write documentation on installation of the Zimlet and Zimbra Java Extenstion
 
+- Write multi-domain install steps
+
 - Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
 
 - Change password from Zimbra Admin UI / now it only works via CLI or when the user goes via the change password screen (which requires you to enter old password)
