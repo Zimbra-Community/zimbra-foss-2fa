@@ -1,5 +1,7 @@
 # Installing Zimbra Open Source Two Factor Authentication with PrivacyIDEA
 
+[![Alt text](https://img.youtube.com/vi/MHRaFS7K_B8/0.jpg)](https://www.youtube.com/watch?v=MHRaFS7K_B8
+
 These steps will set-up your Zimbra Open Source Edition server with Two Factor Authentication. The 2FA parts are powered by PrivacyIDEA and will run in a Docker container on your Zimbra server.
 
 Technically this makes Zimbra support all 2FA tokens PrivacyIDEA supports. This includes TOTP, HOTP, Yubikey and U2F. This is much more than the Zimbra Network edition, which only supports TOTP.
@@ -164,9 +166,10 @@ The installation takes around 1GB of space.
 
 ## To-do's
 
-- Implement Zimlet to add/remove token? using https://privacyidea.readthedocs.io/en/latest/modules/api/validate.html?highlight=transaction_id#post--validate-check
+- Write documentation on installation of the Zimlet and Zimbra Java Extenstion
+
 - Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
-- Dockerize https://www.stefanseidel.info/Z-Push_on_Zimbra_8
+
 - Change password from Zimbra Admin UI / now it only works via CLI or when the user goes via the change password screen (which requires you to enter old password)
 
    /opt/zimbra/jetty_base/webapps/zimbraAdmin/js/zimbraAdmin/accounts/view/ZaAccountXFormView.js
@@ -175,3 +178,4 @@ The installation takes around 1GB of space.
      function(acctName) {
         return true;
      }
+

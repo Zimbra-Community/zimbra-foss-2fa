@@ -1,0 +1,9 @@
+<zimlet name="tk_barrydegraaff_2fa"
+        version="0.0.1"
+        target="main compose-window view-window"
+        label="Two Factor Authentication"
+        description="Two Factor Authentication.">
+    <include>tk_barrydegraaff_2fa.js</include>
+    <includeCSS>tk_barrydegraaff_2fa.css</includeCSS>
+   <handlerObject>tk_barrydegraaff_2fa_HandlerObject</handlerObject>   
+</zimlet>
