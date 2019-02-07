@@ -164,20 +164,64 @@ The installation takes around 1GB of space.
 
    Open the file https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/patches/changepass-patch.js the patch needs to go in /opt/zimbra/jetty/webapps/zimbra/h/changepass the patch needs to be added just before the final </body> tag. You need to repeat this whenever you upgrade Zimbra to a new version.
 
-## To-do's
+17. Install the Zimlets
+   
+   The admin Zimlet only contains a patch that will enable the `Change password` right-click menu option, that is otherwise disabled for external authentication.
+   As Zimbra user:
+   
+      cd /tmp
+      wget https://github.com/Zimbra-Community/zimbra-foss-2fa/releases/download/0.0.1/tk_barrydegraaff_2fa.zip -O /tmp/tk_barrydegraaff_2fa.zip
+      wget https://github.com/Zimbra-Community/zimbra-foss-2fa/releases/download/0.0.1/tk_barrydegraaff_2fa_admin.zip -O /tmp/tk_barrydegraaff_2fa_admin.zip
+      zmzimletctl deploy tk_barrydegraaff_2fa.zip
+      zmzimletctl deploy tk_barrydegraaff_2fa_admin.zip
 
-- Write documentation on installation of the Zimlet and Zimbra Java Extenstion
+18. Install Java extension
+
+   As root:
+   
+      mkdir /iso/opt/zimbra/lib/ext/zimbraprivacyidea
+      wget https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/extension/out/artifacts/zimbraprivacyIdea_jar/privacyIdeazimbra.jar -O /opt/zimbra/lib/ext/zimbraprivacyidea/privacyIdeazimbra.jar
+      
+   If you want to set-up a single domain
+   
+      cd /iso/opt/zimbra/lib/ext/zimbraprivacyidea
+      wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/extension/config/config.properties -O /opt/zimbra/lib/ext/zimbraprivacyidea/config.properties
+
+   If you want to set-up multiple domains
+   
+      cd /iso/opt/zimbra/lib/ext/zimbraprivacyidea
+      wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/extension/config/config-multi-domain.properties -O /opt/zimbra/lib/ext/zimbraprivacyidea/config.properties
+      
+   As zimbra `zmmailboxdctl restart` to load the extension.
+
+19. Configure the Java extension
+
+      Open /opt/zimbra/lib/ext/zimbraprivacyidea/config.properties using nano or vi and add admin tokens for each of your PrivacyIDEA docker containers. You can get an admin token by running. `docker container exec -it privacyidea /usr/bin/pi-manage api createtoken -r admin -d 7200`
+
+      In the properties file you can set the following properties
+      
+      | Property  | Description  | Example/comments   |
+      |---|---|---|
+      | apiURI  | the url to the PrivacyIDEA instance | http://172.28.0.2:8000  |
+      | token   | the admin token  | `docker container exec -it privacyidea /usr/bin/pi-manage api createtoken -r admin -d 7200` |
+      | initJSON  | the JSON string that holds the settings for creation of the token  | `{"timeStep":30,"otplen":6,"genkey":true,"description":"zimbratokendescr","type":"totp","radius.system_settings":true,"2stepinit":false,"validity_period_start":"","validity_period_end":"","user":"zimbrauserdonotchangethis","realm":"zimbra"}`  |
+      | deviceJSON  | the JSON string that holds the settings for creation of device/application passcodes | `{"otpkey":"zimbradevicepasscode","description":"zimbratokendescr","type":"pw","radius.system_settings":true,"2stepinit":false,"validity_period_start":"","validity_period_end":"","user":"zimbrauserdonotchangethis","realm":"zimbra"}`  |
+      | accountname_with_domain  | boolean, if set to false, the username will be passed to PrivacyIDEA excluding the domainname. Aka info@example.com will be looked up as info. When set to true, info@example.com needs to exist as a user in PrivacyIDEA  |   |
+                 
+       In case you want/need a configuration per domain, you can add the properties by appending the domain name like so:
+       apiURI_example.com
+       token_example.com
+      
+       The extension will first look for property_domain.com if that cannot be found, it will use property. So if apiURI_example.com is present, it will use that for users in example.com. If there is no apiURI_example.com it will use apiURI for users in example.com. See the example config files https://github.com/Zimbra-Community/zimbra-foss-2fa/tree/master/extension/config.
+
+
+## To-do's
 
 - Write multi-domain install steps
 
 - Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
 
-- Change password from Zimbra Admin UI / now it only works via CLI or when the user goes via the change password screen (which requires you to enter old password)
-
-   /opt/zimbra/jetty_base/webapps/zimbraAdmin/js/zimbraAdmin/accounts/view/ZaAccountXFormView.js
    
-     ZaAccountXFormView.isAuthfromInternal =
-     function(acctName) {
-        return true;
-     }
+   
+
 
