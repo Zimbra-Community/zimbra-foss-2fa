@@ -214,14 +214,15 @@ The installation takes around 1GB of space.
       
        The extension will first look for property_domain.com if that cannot be found, it will use property. So if apiURI_example.com is present, it will use that for users in example.com. If there is no apiURI_example.com it will use apiURI for users in example.com. See the example config files https://github.com/Zimbra-Community/zimbra-foss-2fa/tree/master/extension/config.
 
+20. How to revoke API tokens created with `pi-manage api createtoken`
 
+      You cannot remove individual tokens, but you can invalidate them all by changing the "SECRET_KEY" in pi.cfg by running `docker container exec -it privacyidea nano /etc/privacyidea/pi.cfg` and then `docker container restart privacyidea`.
+  
 ## To-do's
 
 - Write multi-domain install steps
 
-- Proxy using wsgi instead of http https://privacyidea.readthedocs.io/en/latest/installation/system/wsgiscript.html
 
-   
    
 
 
