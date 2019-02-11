@@ -1,8 +1,8 @@
 # Installing Zimbra Open Source Two Factor Authentication with PrivacyIDEA
 
-[![2FA demo](https://img.youtube.com/vi/MHRaFS7K_B8/0.jpg)](https://www.youtube.com/watch?v=MHRaFS7K_B8)
+[![2FA demo](https://img.youtube.com/vi/MHRaFS7K_B8/0.jpg)](https://www.youtube.com/watch?v=MHRaFS7K_B8) Demo: https://www.youtube.com/watch?v=MHRaFS7K_B8
 
-[![2FA install steps](https://img.youtube.com/vi/PDhrvFGMtjQ/0.jpg)](https://www.youtube.com/watch?v=PDhrvFGMtjQ)
+[![2FA install steps](https://img.youtube.com/vi/PDhrvFGMtjQ/0.jpg)](https://www.youtube.com/watch?v=PDhrvFGMtjQ) Install guide: https://www.youtube.com/watch?v=PDhrvFGMtjQ
 
 These steps will set-up your Zimbra Open Source Edition server with Two Factor Authentication. The 2FA parts are powered by PrivacyIDEA and will run in a Docker container on your Zimbra server.
 
