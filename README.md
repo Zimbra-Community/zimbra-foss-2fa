@@ -33,7 +33,7 @@ The installation takes around 1GB of space.
    
          1 * * * * /usr/sbin/ntpdate 0.us.pool.ntp.org
 
-2. If you want, you can build your own Docker image, that way you have the latest version of everything and get some know-how along the way. See https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/privacyidea/README.md
+2. (optional) If you want, you can build your own Docker image, that way you have the latest version of everything and get some know-how along the way. See https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/privacyidea/README.md
    
 3. Create storage volumes
 
@@ -179,17 +179,17 @@ The installation takes around 1GB of space.
 
    As root:
    
-      mkdir /iso/opt/zimbra/lib/ext/zimbraprivacyidea
+      mkdir /opt/zimbra/lib/ext/zimbraprivacyidea
       wget https://github.com/Zimbra-Community/zimbra-foss-2fa/raw/master/extension/out/artifacts/zimbraprivacyIdea_jar/privacyIdeazimbra.jar -O /opt/zimbra/lib/ext/zimbraprivacyidea/privacyIdeazimbra.jar
       
    If you want to set-up a single domain
    
-      cd /iso/opt/zimbra/lib/ext/zimbraprivacyidea
+      cd /opt/zimbra/lib/ext/zimbraprivacyidea
       wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/extension/config/config.properties -O /opt/zimbra/lib/ext/zimbraprivacyidea/config.properties
 
    If you want to set-up multiple domains
    
-      cd /iso/opt/zimbra/lib/ext/zimbraprivacyidea
+      cd /opt/zimbra/lib/ext/zimbraprivacyidea
       wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/extension/config/config-multi-domain.properties -O /opt/zimbra/lib/ext/zimbraprivacyidea/config.properties
       
    As zimbra `zmmailboxdctl restart` to load the extension.
@@ -217,7 +217,16 @@ The installation takes around 1GB of space.
 20. How to revoke API tokens created with `pi-manage api createtoken`
 
       You cannot remove individual tokens, but you can invalidate them all by changing the "SECRET_KEY" in pi.cfg by running `docker container exec -it privacyidea nano /etc/privacyidea/pi.cfg` and then `docker container restart privacyidea`.
-  
+ 
+21. Hide PrivacyIDEA UI
+
+    Since all tokens can be added/removed via Zimbra, you do not need the PrivacyIDEA web interface. You can remove the open port like so:
+
+         docker container stop privacyidea
+         docker container rm privacyidea
+         docker run --init --net zimbradocker --ip 172.18.0.2 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
+
+
 ## To-do's
 
 - Write multi-domain install steps
