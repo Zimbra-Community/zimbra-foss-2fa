@@ -17,9 +17,9 @@ The installation takes around 1GB of space.
 ### Installing
 If you have a single server Zimbra running on CentOS or Ubuntu AND you want to use Zimbra's internal LDAP to store usernames and password you can use the automated installer.
 
-   wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/2fa-installer.sh -O /tmp/2fa-installer.sh
-   chmod +rx /tmp/2fa-installer.sh
-   /tmp/2fa-installer.sh
+    wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/2fa-installer.sh -O /tmp/2fa-installer.sh
+    chmod +rx /tmp/2fa-installer.sh
+    /tmp/2fa-installer.sh
 
 If you have a multi-server Zimbra installation, or want to use Active Directory as back-end for your usernames/passwords. Or if you want to know all configuration steps, follow the manual install guide.
 
