@@ -14,7 +14,7 @@ This project uses an LDAP Proxy provided by PrivacyIDEA. So the usernames and pa
 The installation takes around 1GB of space.
 
 ### Installing
-If you have a single server Zimbra running on CentOS or Ubuntu AND you want to use Zimbra's internal LDAP to store usernames and password you can use the automated installer.
+If you have a single server Zimbra running on CentOS or Ubuntu AND you want to use Zimbra's internal LDAP to store usernames and password you can use the automated installer. Tested on CentOS 7 and Ubuntu 16.04.4 LTS.
 
     wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/2fa-installer.sh -O /tmp/2fa-installer.sh
     chmod +rx /tmp/2fa-installer.sh
