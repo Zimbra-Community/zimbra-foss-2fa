@@ -68,6 +68,7 @@ The installation takes around 1GB of space.
 6. Run the privacy-idea container
 
         docker network create --subnet=172.18.0.0/16 zimbradocker
+        docker pull zetalliance/privacy-idea:latest
         docker run --init --net zimbradocker --ip 172.18.0.2 -p 5000:443 --name privacyidea --restart=always -v privacyidea_data:/etc/privacyidea -v privacyidea_log:/var/log/privacyidea -v privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
 
    You should be able to see PrivacyIDEA at https://yourzimbra:5000/ it can take a couple of minutes for it to start. 

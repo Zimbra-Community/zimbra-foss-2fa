@@ -42,7 +42,6 @@ openldap-devel perl-libwww-perl perl-Config-IniFiles \
 perl-Try-Tiny perl-Data-Dump perl-JSON perl-LWP-Protocol-http* libffi-devel \
 freetype-devel libpng-devel
 
-#We could include apache if we want to do https...
 RUN echo -e "[program:apache2]\ncommand=/usr/sbin/apachectl -D \"FOREGROUND\" -k start\nredirect_stderr=true" > /etc/supervisord.d/httpd.ini
 RUN echo -e "[program:mysqld]\ncommand=/usr/bin/mysqld_safe --basedir='/usr' --datadir='/var/lib/mysql'\nredirect_stderr=true" > /etc/supervisord.d/mysqld.ini
 
@@ -63,8 +62,6 @@ RUN mkdir /opt/privacyIDEA
 RUN mkdir /etc/privacyidea
 RUN mkdir /var/log/privacyidea
 
-#FIXME: fork requirement
-#ADD https://raw.githubusercontent.com/privacyidea/privacyidea/master/requirements.txt /opt/privacyIDEA/requirements.txt
 ADD requirements.txt /opt/privacyIDEA/requirements.txt
 ADD pi.cfg /etc/privacyidea/pi.cfg
 

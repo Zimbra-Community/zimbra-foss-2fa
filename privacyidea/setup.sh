@@ -21,8 +21,15 @@ sed -i 's!Never know...!'$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-24};
 
 cd /opt/privacyIDEA
 
+#These 3 lines only do something the very first time they are ran
 pi-manage create_enckey
 pi-manage create_audit_keys
 pi-manage createdb
+
+#This only does anything in case the db schema needs to be upgraded
+#https://privacyidea.readthedocs.io/en/latest/installation/upgrade.html
+privacyidea-schema-upgrade /usr/lib/privacyidea/migrations
+
+
 
 pi-manage runserver -h 0.0.0.0 -p 8000

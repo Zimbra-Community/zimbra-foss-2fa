@@ -161,6 +161,7 @@ for ((i = 2 ; i < 255 ; i++ )); do
 done
 
 echo "Starting Docker container"
+docker pull zetalliance/privacy-idea:latest
 docker run --init --net zimbradocker --ip $DOCKERIP2FA --name privacyidea_${OPTION2FAINST//[-._]/} --restart=always -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
 
 set +e
