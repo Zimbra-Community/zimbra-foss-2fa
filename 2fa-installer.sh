@@ -126,7 +126,7 @@ docker volume create --name ${OPTION2FAINST//[-._]/}_privacyidea_mariadb
 mkdir -p /opt/privacyIdeaLDAPProxy/$OPTION2FAINST
 wget https://raw.githubusercontent.com/Zimbra-Community/zimbra-foss-2fa/master/privacyidea-ldap-proxy/config.ini -O /opt/privacyIdeaLDAPProxy/$OPTION2FAINST/config.ini
 
-LDAPIP=$(netstat -tulpn | grep :389 | awk '{ print $4 }' | awk -F  ":" '{ print $1 }' | grep -v 127.0.0.1)
+LDAPIP=$(netstat -tulpn | grep -v tcp6 | grep -v 127.0.0.1 | grep :389 | awk '{ print $4 }' | awk -F ":" '{ print $1 }')
 
 echo "Setting LDAP IP"
 if (whiptail --title "Zimbra LDAP IP" --yesno "Is this the IP for your Zimbra LDAP? $LDAPIP:389" 8 78); then
