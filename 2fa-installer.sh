@@ -140,13 +140,6 @@ echo "Setting LDAP password"
 ZMLDAPPASS2FA=$(su zimbra -c "source /opt/zimbra/bin/zmshutil; zmsetvars; env" | grep ldap_root_password= | awk -F  "=" '{ print $2 }')
 sed -i 's!zimbra-ldap-pass-here!'$ZMLDAPPASS2FA'!' /opt/privacyIdeaLDAPProxy/$OPTION2FAINST/config.ini
 
-echo "Deploy SSL certificates from Zimbra to PrivacyIDEA"
-set +e
-cp -f /opt/zimbra/ssl/zimbra/server/server.key /opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key
-cp -f /opt/zimbra/ssl/zimbra/commercial/commercial.key /opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key
-cp -f /opt/zimbra/conf/nginx.crt /opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt
-set -e
-
 echo "Creating Docker network"
 docker network inspect zimbradocker &>/dev/null || docker network create --subnet=172.18.0.0/16 zimbradocker
 
@@ -162,7 +155,16 @@ done
 
 echo "Starting Docker container"
 docker pull zetalliance/privacy-idea:latest
-docker run --init --net zimbradocker --ip $DOCKERIP2FA --name privacyidea_${OPTION2FAINST//[-._]/} --restart=always -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy -d zetalliance/privacy-idea:latest
+
+# Check if commercial.key exists
+if [ -f /opt/zimbra/ssl/zimbra/commercial/commercial.key ]
+then
+  echo "Running Container with zimbra commercial certificate"
+  docker run --init --net zimbradocker --ip $DOCKERIP2FA --name privacyidea_${OPTION2FAINST//[-._]/} --restart=always -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy -v /opt/zimbra/ssl/zimbra/commercial/commercial.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro -d zetalliance/privacy-idea:latest
+else
+  echo "Running Container with zimbra server.key"
+  docker run --init --net zimbradocker --ip $DOCKERIP2FA --name privacyidea_${OPTION2FAINST//[-._]/} --restart=always -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy -v /opt/zimbra/ssl/zimbra/server/server.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro  -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro -d zetalliance/privacy-idea:latest
+fi
 
 set +e
 echo "Configuring firewallD, if you do not have firewallD, or see some errors here, configure the firewall manually"
