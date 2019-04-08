@@ -160,11 +160,26 @@ docker pull zetalliance/privacy-idea:latest
 if [ -f /opt/zimbra/ssl/zimbra/commercial/commercial.key ]
 then
   echo "Running Container with zimbra commercial certificate"
-  docker run --init --net zimbradocker --ip $DOCKERIP2FA --name privacyidea_${OPTION2FAINST//[-._]/} --restart=always -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy -v /opt/zimbra/ssl/zimbra/commercial/commercial.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro -d zetalliance/privacy-idea:latest
+  additional_volumes="-v /opt/zimbra/ssl/zimbra/commercial/commercial.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro \
+             -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro"
 else
   echo "Running Container with zimbra server.key"
-  docker run --init --net zimbradocker --ip $DOCKERIP2FA --name privacyidea_${OPTION2FAINST//[-._]/} --restart=always -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy -v /opt/zimbra/ssl/zimbra/server/server.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro  -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro -d zetalliance/privacy-idea:latest
+  additional_volumes="-v /opt/zimbra/ssl/zimbra/server/server.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro \
+             -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro"
 fi
+
+# Execute docker run command
+docker run --init --net zimbradocker \
+             --ip $DOCKERIP2FA \
+             --name privacyidea_${OPTION2FAINST//[-._]/} \
+             --restart=always \
+             -v ${OPTION2FAINST//[-._]/}_privacyidea_data:/etc/privacyidea \
+             -v ${OPTION2FAINST//[-._]/}_privacyidea_log:/var/log/privacyidea \
+             -v ${OPTION2FAINST//[-._]/}_privacyidea_mariadb:/var/lib/mysql \
+             -v /opt/privacyIdeaLDAPProxy/$OPTION2FAINST:/opt/privacyIdeaLDAPProxy \
+             $additional_volumes \
+             -d zetalliance/privacy-idea:latest
+
 
 set +e
 echo "Configuring firewallD, if you do not have firewallD, or see some errors here, configure the firewall manually"
