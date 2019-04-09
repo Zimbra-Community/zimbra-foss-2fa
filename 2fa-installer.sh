@@ -160,12 +160,12 @@ docker pull zetalliance/privacy-idea:latest
 if [ -f /opt/zimbra/ssl/zimbra/commercial/commercial.key ]
 then
   echo "Running Container with zimbra commercial certificate"
-  additional_volumes="-v /opt/zimbra/ssl/zimbra/commercial/commercial.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro \
-             -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro"
+  additional_volumes="-v /opt/zimbra/ssl/zimbra/commercial/commercial.key:/opt/privacyIdeaLDAPProxy/server.key:ro \
+             -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/server.crt:ro"
 else
   echo "Running Container with zimbra server.key"
-  additional_volumes="-v /opt/zimbra/ssl/zimbra/server/server.key:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.key:ro \
-             -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/$OPTION2FAINST/server.crt:ro"
+  additional_volumes="-v /opt/zimbra/ssl/zimbra/server/server.key:/opt/privacyIdeaLDAPProxy/server.key:ro \
+             -v /opt/zimbra/conf/nginx.crt:/opt/privacyIdeaLDAPProxy/server.crt:ro"
 fi
 
 # Execute docker run command
