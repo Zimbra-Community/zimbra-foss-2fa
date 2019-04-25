@@ -247,7 +247,13 @@ token_$OPTION2FAINST = $AUTHTOKENPI
 EOF
 
 echo "Setting up Zimbra domain configuration for $OPTION2FAINST"
-SERVICEACCT_PWD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-24};echo;)
+
+#This should meet most people that have set a custom password policy
+SERVICEACCT_PWD=$(< /dev/urandom tr -dc A-Z | head -c${1:-6};echo;)
+SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc a-z | head -c${1:-6};echo;)
+SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc 0-9 | head -c${1:-6};echo;)
+SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc _?*! | head -c${1:-6};echo;)
+
 PROFFILE="$(mktemp /tmp/2fa-prof.XXXXXXXX.txt)"
 echo "md $OPTION2FAINST zimbraAuthLdapSearchBase \"ou=people,dc=${OPTION2FAINST//./,dc=}\"" > "$PROFFILE"
 echo "md $OPTION2FAINST zimbraAuthLdapSearchBindDn \"uid=sa-ldap-2fa,ou=people,dc=${OPTION2FAINST//./,dc=}\"" >> "$PROFFILE"
@@ -257,7 +263,7 @@ echo "md $OPTION2FAINST zimbraAuthLdapURL \"ldap://$DOCKERIP2FA:1389\"" >> "$PRO
 echo "md $OPTION2FAINST zimbraAuthMech \"ldap\"" >> "$PROFFILE"
 echo "md $OPTION2FAINST zimbraAuthFallbackToLocal FALSE" >> "$PROFFILE"
 echo "da sa-ldap-2fa@$OPTION2FAINST" >> "$PROFFILE"
-echo "ca sa-ldap-2fa@$OPTION2FAINST $SERVICEACCT_PWD" >> "$PROFFILE"
+echo "ca sa-ldap-2fa@$OPTION2FAINST '$SERVICEACCT_PWD'" >> "$PROFFILE"
 chown zimbra:zimbra "$PROFFILE"
 su zimbra -c "/opt/zimbra/bin/zmprov < ${PROFFILE}"
 
