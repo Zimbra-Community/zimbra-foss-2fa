@@ -6,6 +6,21 @@
  * And add it before the final < / script > tag.
  * */
 
+/* Appending an OTP to the password will prompt to update the stored password
+for users that use browser password storing. Therefore we replace some login 
+fields' attributes, this will make the browser not see this is a login form.
+*/
+var passField = document.getElementById('password');
+passField.setAttribute('name','nopass');
+var lForm = document.querySelector('form');
+var newNode = document.createElement('input');
+newNode.setAttribute('name', 'password');
+newNode.setAttribute('type', 'hidden');
+newNode.setAttribute('id', 'password_with_otp');
+lForm.appendChild(newNode);
+/* End browser store pass patch */
+
+
 function zetaCheckEnter(e){
    e = e || event;
    var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
@@ -19,8 +34,7 @@ function zetaCheckEnter(e){
 
 function zetaDoLogin(){
    //Submit the form with the OTP value 
-   document.getElementById('password').value = document.getElementById('password').value + document.getElementById('zeta-otp').value;
-   document.getElementById('zeta-otp').value = '';
+   document.getElementById('password_with_otp').value = document.getElementById('password').value + document.getElementById('zeta-otp').value;
    var originalSubmitButton=document.querySelectorAll('input[type=submit]');
    originalSubmitButton[0].click();
 }      
