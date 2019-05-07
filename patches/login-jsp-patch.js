@@ -1,10 +1,19 @@
-<script>
 /*Start Zeta Alliance Zimbra FOSS 2FA patch*/
 
 /* On your Zimbra server your need to put this code in the login screen.
  * open /opt/zimbra/jetty/webapps/zimbra/public/login.jsp
  * And add it before the final < / script > tag.
  * */
+
+/* replace some login fields' attributes */
+	var passField = document.getElementById('password');
+	passField.setAttribute('name','');
+	var lForm = document.querySelector('form');
+	var newNode = document.createElement('input');
+	newNode.setAttribute('name', 'password');
+	newNode.setAttribute('type', 'hidden');
+	newNode.setAttribute('id', 'password_with_otp');
+	lForm.appendChild(newNode);
 
 function zetaCheckEnter(e){
    e = e || event;
@@ -19,8 +28,7 @@ function zetaCheckEnter(e){
 
 function zetaDoLogin(){
    //Submit the form with the OTP value 
-   document.getElementById('password').value = document.getElementById('password').value + document.getElementById('zeta-otp').value;
-   document.getElementById('zeta-otp').value = '';
+   document.getElementById('password_with_otp').value = document.getElementById('password').value + document.getElementById('zeta-otp').value;
    var originalSubmitButton=document.querySelectorAll('input[type=submit]');
    originalSubmitButton[0].click();
 }      
@@ -39,4 +47,3 @@ document.getElementById('password').parentElement.parentElement.insertAdjacentHT
 originalSubmitButton[0].insertAdjacentHTML('beforebegin', '<button type="button" onclick="zetaDoLogin()" id="zetaSubmit" class="ZLoginButton DwtButton">'+originalSubmitButton[0].value+'</Button>');
 
 /*End Zeta Alliance Zimbra FOSS 2FA patch*/
-</script>
