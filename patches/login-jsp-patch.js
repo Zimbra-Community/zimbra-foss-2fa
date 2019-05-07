@@ -1,3 +1,4 @@
+<script>
 /*Start Zeta Alliance Zimbra FOSS 2FA patch*/
 
 /* On your Zimbra server your need to put this code in the login screen.
@@ -47,3 +48,4 @@ document.getElementById('password').parentElement.parentElement.insertAdjacentHT
 originalSubmitButton[0].insertAdjacentHTML('beforebegin', '<button type="button" onclick="zetaDoLogin()" id="zetaSubmit" class="ZLoginButton DwtButton">'+originalSubmitButton[0].value+'</Button>');
 
 /*End Zeta Alliance Zimbra FOSS 2FA patch*/
+</script>
