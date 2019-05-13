@@ -83,7 +83,7 @@ yum remove -y docker \
 echo "Installing Docker dependancies"
 yum install -y yum-utils \
   device-mapper-persistent-data \
-  lvm2 wget net-tools sed gawk curl
+  lvm2 wget net-tools sed gawk curl newt
 
 echo "Installing Docker"
 yum-config-manager \
@@ -102,7 +102,7 @@ apt-get install -y \
     ca-certificates \
     curl \
     gnupg-agent \
-    software-properties-common wget net-tools sed gawk curl
+    software-properties-common wget net-tools sed gawk curl whiptail
 
 echo "Installing Docker"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
