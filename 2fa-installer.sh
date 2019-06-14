@@ -292,9 +292,9 @@ else
 fi
 
 echo "Set permissions"
-chmod +rx /opt/zimbra/jetty/webapps/zimbra/h/changepass
-chmod +rx /opt/zimbra/jetty/webapps/zimbra/public/login.jsp
-chmod +rx /opt/zimbra/lib/ext/zimbraprivacyidea -R
+chmod ugo+rx /opt/zimbra/jetty/webapps/zimbra/h/changepass
+chmod ugo+rx /opt/zimbra/jetty/webapps/zimbra/public/login.jsp
+chmod ugo+rx /opt/zimbra/lib/ext/zimbraprivacyidea -R
 
 echo "Restarting Zimbra mailboxd"
 su zimbra -c "/opt/zimbra/bin/zmmailboxdctl restart"
