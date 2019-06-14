@@ -291,5 +291,10 @@ else
    rm -f /tmp/zimbra2f-changepass.patch
 fi
 
+echo "Set permissions"
+chmod +rx /opt/zimbra/jetty/webapps/zimbra/h/changepass
+chmod +rx /opt/zimbra/jetty/webapps/zimbra/public/login.jsp
+chmod +rx /opt/zimbra/lib/ext/zimbraprivacyidea -R
+
 echo "Restarting Zimbra mailboxd"
 su zimbra -c "/opt/zimbra/bin/zmmailboxdctl restart"
