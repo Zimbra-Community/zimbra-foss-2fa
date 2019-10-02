@@ -252,7 +252,7 @@ echo "Setting up Zimbra domain configuration for $OPTION2FAINST"
 SERVICEACCT_PWD=$(< /dev/urandom tr -dc A-Z | head -c${1:-6};echo;)
 SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc a-z | head -c${1:-6};echo;)
 SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc 0-9 | head -c${1:-6};echo;)
-SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc _?*! | head -c${1:-6};echo;)
+SERVICEACCT_PWD=$SERVICEACCT_PWD$(< /dev/urandom tr -dc _?*. | head -c${1:-6};echo;)
 
 PROFFILE="$(mktemp /tmp/2fa-prof.XXXXXXXX.txt)"
 echo "md $OPTION2FAINST zimbraAuthLdapSearchBase \"ou=people,dc=${OPTION2FAINST//./,dc=}\"" > "$PROFFILE"
