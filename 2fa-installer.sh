@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2014-2019  Barry de Graaff
+# Copyright (C) 2014-2020  Barry de Graaff
 # 
 # Bugs and feedback: https://github.com/Zimbra-Community/zimbra-foss-2fa/issues
 # 
@@ -219,7 +219,7 @@ echo ""
 
 echo "Deploying Zimbra Zimlets"
 cd /tmp
-wget https://github.com/Zimbra-Community/zimbra-foss-2fa/releases/download/0.0.1/tk_barrydegraaff_2fa.zip -O /tmp/tk_barrydegraaff_2fa.zip
+wget https://github.com/Zimbra-Community/zimbra-foss-2fa/releases/download/0.0.2/tk_barrydegraaff_2fa.zip -O /tmp/tk_barrydegraaff_2fa.zip
 wget https://github.com/Zimbra-Community/zimbra-foss-2fa/releases/download/0.0.1/tk_barrydegraaff_2fa_admin.zip -O /tmp/tk_barrydegraaff_2fa_admin.zip
 su zimbra -c "/opt/zimbra/bin/zmzimletctl deploy /tmp/tk_barrydegraaff_2fa.zip"
 su zimbra -c "/opt/zimbra/bin/zmzimletctl deploy /tmp/tk_barrydegraaff_2fa_admin.zip"

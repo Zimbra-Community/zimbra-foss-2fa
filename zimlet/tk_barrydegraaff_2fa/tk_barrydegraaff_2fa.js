@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2017-2019  Barry de Graaff
+Copyright (C) 2017-2020  Barry de Graaff
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -260,13 +260,33 @@ TwoFaZimlet.prototype.displayTokens = function(args)
       var data = JSON.parse(args._data.response._content);
       var tokens = data.result.value.tokens;
       for (var i = 0; i < tokens.length; i++) {
-         document.getElementById('tk_barrydegraaff_2fa_currentTokens').innerHTML += '<button title=\'Failcount: '+tokens[i].failcount+'\r\nLast used: '+(tokens[i].info.last_auth ? tokens[i].info.last_auth : 'never') +'\' onclick=\'TwoFaZimlet.prototype.deleteTokens("'+tokens[i].serial+'")\' style=\'width:200px;\' >'+tokens[i].serial+'<br>'+tokens[i].description+'</button><br>';
+         document.getElementById('tk_barrydegraaff_2fa_currentTokens').innerHTML += '<button title=\'Failcount: '+tokens[i].failcount+'\r\nLast used: '+(tokens[i].info.last_auth ? tokens[i].info.last_auth : 'never') +'\' onclick=\'TwoFaZimlet.prototype.askConfirmDeleteTokens("'+tokens[i].serial+'")\' style=\'width:200px;\' >'+tokens[i].serial+'<br>'+tokens[i].description+'</button><br>';
       }
    }
    catch (exception)
    {
       
    }
+};
+
+TwoFaZimlet.prototype.askConfirmDeleteTokens = function(serial)
+{
+   var zimletInstance = appCtxt._zimletMgr.getZimletByName('tk_barrydegraaff_2fa').handlerObject;
+   zimletInstance._dialog = new ZmDialog( { title:"Confirm token deletion", parent:zimletInstance.getShell(), standardButtons:[DwtDialog.OK_BUTTON,DwtDialog.CANCEL_BUTTON], disposeOnPopDown:true } );   
+   
+   zimletInstance._dialog.setContent(
+   '<div style="width:450px; height:100px;">'+
+   "Are you sure you want to delete the token " + serial + "?" +
+   '</div>'
+   );
+   
+   zimletInstance._dialog.setButtonListener(DwtDialog.OK_BUTTON, new AjxListener(zimletInstance, zimletInstance.deleteTokens, [serial]));
+   zimletInstance._dialog.setButtonListener(DwtDialog.CANCEL_BUTTON, new AjxListener(zimletInstance, zimletInstance._cancelBtn));
+   zimletInstance._dialog.setEnterListener(new AjxListener(zimletInstance, zimletInstance._cancelBtn));
+   document.getElementById(zimletInstance._dialog.__internalId+'_handle').style.backgroundColor = '#eeeeee';
+   document.getElementById(zimletInstance._dialog.__internalId+'_title').style.textAlign = 'center';
+   zimletInstance._dialog.popup();
+   document.getElementById(zimletInstance._dialog.__internalId+'_button1').focus();
 };
 
 TwoFaZimlet.prototype.deleteTokens = function(serial)
@@ -281,4 +301,3 @@ TwoFaZimlet.prototype.deleteTokens = function(serial)
    soapDoc.getMethod().setAttribute("serial", serial);
    appCtxt.getAppController().sendRequest(params);
 };
-  

@@ -1,5 +1,5 @@
 <zimlet name="tk_barrydegraaff_2fa"
-        version="0.0.1"
+        version="0.0.2"
         target="main compose-window view-window"
         label="Two Factor Authentication"
         description="Two Factor Authentication.">
