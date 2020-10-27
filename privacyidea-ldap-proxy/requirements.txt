@@ -4,7 +4,7 @@ attrs==17.2.0
 cffi==1.11.5
 configobj==5.0.6
 constantly==15.1.0
-cryptography==2.4.2
+cryptography==3.2
 enum34==1.1.6
 idna==2.7
 incremental==16.10.1
