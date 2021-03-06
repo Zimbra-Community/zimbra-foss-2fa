@@ -5,8 +5,6 @@ If you find Zimbra WebDAV Client useful and want to support its continued develo
 - PayPal: info@barrydegraaff.tk
 - Bank transfer: IBAN NL55ABNA0623226413 ; BIC ABNANL2A
 
-[![2FA demo](https://img.youtube.com/vi/MHRaFS7K_B8/0.jpg)](https://www.youtube.com/watch?v=MHRaFS7K_B8) 
-
 Demo: https://www.youtube.com/watch?v=MHRaFS7K_B8
 
 You can use the software in this repository to set-up your Zimbra Open Source Edition server with Two Factor Authentication. The 2FA parts are powered by PrivacyIDEA and will run in a Docker container on your Zimbra server.
