@@ -35,7 +35,7 @@ numpy==1.14.3
 passlib==1.7.1
 Pillow==5.1.0
 psycopg2>=2.6
-py==1.5.3
+py==1.10.0
 pyasn1==0.4.3
 pycparser==2.18
 Pygments==2.2.0
