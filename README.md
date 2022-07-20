@@ -23,7 +23,7 @@ https://github.com/Zimbra-Community/zimbra-foss-2fa/blob/master/README-MANUAL-IN
 
 ### License
 
-Copyright (C) 2015-2021  Barry de Graaff [Zeta Alliance](https://zetalliance.org/)
+Copyright (C) 2015-2022  Barry de Graaff [Zeta Alliance](https://zetalliance.org/)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

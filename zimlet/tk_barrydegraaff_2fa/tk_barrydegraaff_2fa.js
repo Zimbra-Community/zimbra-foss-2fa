@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2017-2020  Barry de Graaff
+Copyright (C) 2017-2022  Barry de Graaff
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -260,7 +260,8 @@ TwoFaZimlet.prototype.displayTokens = function(args)
       var data = JSON.parse(args._data.response._content);
       var tokens = data.result.value.tokens;
       for (var i = 0; i < tokens.length; i++) {
-         document.getElementById('tk_barrydegraaff_2fa_currentTokens').innerHTML += '<button title=\'Failcount: '+tokens[i].failcount+'\r\nLast used: '+(tokens[i].info.last_auth ? tokens[i].info.last_auth : 'never') +'\' onclick=\'TwoFaZimlet.prototype.askConfirmDeleteTokens("'+tokens[i].serial+'")\' style=\'width:200px;\' >'+tokens[i].serial+'<br>'+tokens[i].description+'</button><br>';
+         document.getElementById('tk_barrydegraaff_2fa_currentTokens').innerHTML += '<button id="'+tokens[i].serial+'" title=\'Failcount: '+tokens[i].failcount+'\r\nLast used: '+(tokens[i].info.last_auth ? tokens[i].info.last_auth : 'never') +'\' onclick=\'TwoFaZimlet.prototype.askConfirmDeleteTokens("'+tokens[i].serial+'")\' style=\'width:200px;\' ></button><br>';
+         document.getElementById(tokens[i].serial).innerText = tokens[i].serial+'<br>'+tokens[i].description;
       }
    }
    catch (exception)
