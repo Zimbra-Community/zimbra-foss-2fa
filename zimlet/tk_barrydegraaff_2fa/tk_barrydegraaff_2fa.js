@@ -261,7 +261,7 @@ TwoFaZimlet.prototype.displayTokens = function(args)
       var tokens = data.result.value.tokens;
       for (var i = 0; i < tokens.length; i++) {
          document.getElementById('tk_barrydegraaff_2fa_currentTokens').innerHTML += '<button id="'+tokens[i].serial+'" title=\'Failcount: '+tokens[i].failcount+'\r\nLast used: '+(tokens[i].info.last_auth ? tokens[i].info.last_auth : 'never') +'\' onclick=\'TwoFaZimlet.prototype.askConfirmDeleteTokens("'+tokens[i].serial+'")\' style=\'width:200px;\' ></button><br>';
-         document.getElementById(tokens[i].serial).innerText = tokens[i].serial+'<br>'+tokens[i].description;
+         document.getElementById(tokens[i].serial).innerText = tokens[i].serial+'\n'+tokens[i].description;
       }
    }
    catch (exception)
