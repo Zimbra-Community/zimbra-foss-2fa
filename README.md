@@ -1,4 +1,6 @@
-# Zimbra Open Source Two Factor Authentication with PrivacyIDEA
+# ~Zimbra Open Source Two Factor Authentication with PrivacyIDEA~
+
+**This Zimlet is deprecated and will not be supported on Zimbra versions beyond 8.8.15**
 
 You can use the software in this repository to set-up your Zimbra Open Source Edition server with Two Factor Authentication. The 2FA parts are powered by PrivacyIDEA and will run in a Docker container on your Zimbra server.
 
