@@ -154,7 +154,12 @@ for ((i = 2 ; i < 255 ; i++ )); do
 done
 
 echo "Starting Docker container"
-docker pull zetalliance/privacy-idea:latest
+#dockerhub is no more
+#docker pull zetalliance/privacy-idea:latest
+cd /tmp
+wget https://docker.zetalliance.org/zetalliance-privacy-idea.tgz -O /tmp/zetalliance-privacy-idea.tgz
+docker load < /tmp/zetalliance-privacy-idea.tgz
+rm -f /tmp/zetalliance-privacy-idea.tgz
 
 # Check if commercial.key exists
 if [ -f /opt/zimbra/ssl/zimbra/commercial/commercial.key ]
