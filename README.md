@@ -2,6 +2,12 @@
 
 **This Zimlet is deprecated and will not be supported on Zimbra versions beyond 8.8.15**
 
+---
+
+**You can find a similar Extension+Zimlet (compatible with ZCS 10.1.x) at**: [Maldua's Zimbra 2FA](https://github.com/maldua-suite/zimbra-maldua-2fa) repo.
+
+---
+
 You can use the software in this repository to set-up your Zimbra Open Source Edition server with Two Factor Authentication. The 2FA parts are powered by PrivacyIDEA and will run in a Docker container on your Zimbra server.
 
 Technically this makes Zimbra support all 2FA tokens PrivacyIDEA supports. This includes TOTP, HOTP, and Yubikey. 
